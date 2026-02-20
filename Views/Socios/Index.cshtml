@@ -1,0 +1,48 @@
+@model IEnumerable<Socio>
+@{
+    ViewData["Title"] = "Sócios";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="text-white"><i class="bi bi-people"></i> Sócios</h4>
+    <a asp-action="Criar" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Novo Sócio
+    </a>
+</div>
+
+<div class="card bg-dark border-secondary">
+    <div class="card-body p-0">
+        <table class="table table-dark table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Número</th>
+                    <th width="150">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="4" class="text-center text-muted">Nenhum sócio cadastrado</td></tr>
+                }
+                @foreach (var socio in Model)
+                {
+                    <tr>
+                        <td>@socio.Nome</td>
+                        <td>@socio.Email</td>
+                        <td>@socio.Numero</td>
+                        <td>
+                            <a asp-action="Editar" asp-route-id="@socio.Id" class="btn btn-sm btn-outline-warning">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a asp-action="Excluir" asp-route-id="@socio.Id" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

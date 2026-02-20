@@ -1,0 +1,72 @@
+@model IEnumerable<Cliente>
+@{
+    ViewData["Title"] = "Clientes";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="text-white"><i class="bi bi-person-lines-fill"></i> Clientes</h4>
+    <a asp-action="Criar" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Novo Cliente
+    </a>
+</div>
+
+<div class="card bg-dark border-secondary mb-3">
+    <div class="card-body py-2">
+        <form method="get" class="d-flex">
+            <input type="text" name="termoBusca" value="@ViewBag.TermoBusca"
+                   class="form-control form-control-sm bg-dark text-white border-secondary me-2"
+                   placeholder="Buscar por nome..." />
+            <button type="submit" class="btn btn-sm btn-outline-success">
+                <i class="bi bi-search"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="card bg-dark border-secondary">
+    <div class="card-body p-0">
+        <table class="table table-dark table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Telefone</th>
+                    <th>Status</th>
+                    <th width="200">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="5" class="text-center text-muted">Nenhum cliente encontrado</td></tr>
+                }
+                @foreach (var cliente in Model)
+                {
+                    var classeBadge = cliente.ClienteStatus?.Nome switch
+                    {
+                        "Ativo" => "bg-success",
+                        "Inadimplente" => "bg-danger",
+                        _ => "bg-secondary"
+                    };
+                    <tr>
+                        <td>@cliente.Nome</td>
+                        <td>@cliente.Email</td>
+                        <td>@cliente.Telefone</td>
+                        <td><span class="badge @classeBadge">@cliente.ClienteStatus?.Nome</span></td>
+                        <td>
+                            <a asp-action="Detalhes" asp-route-id="@cliente.Id" class="btn btn-sm btn-outline-info">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a asp-action="Editar" asp-route-id="@cliente.Id" class="btn btn-sm btn-outline-warning">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a asp-action="Excluir" asp-route-id="@cliente.Id" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

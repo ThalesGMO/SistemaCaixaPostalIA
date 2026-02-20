@@ -1,0 +1,69 @@
+@model Cliente
+@{
+    ViewData["Title"] = "Detalhes do Cliente";
+    var classeBadge = Model.ClienteStatus?.Nome switch
+    {
+        "Ativo" => "bg-success",
+        "Inadimplente" => "bg-danger",
+        _ => "bg-secondary"
+    };
+}
+
+<h4 class="text-white mb-3"><i class="bi bi-person-lines-fill"></i> Detalhes do Cliente</h4>
+
+<div class="card bg-dark border-secondary mb-3" style="max-width: 600px;">
+    <div class="card-body text-white">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Nome</dt>
+            <dd class="col-sm-9">@Model.Nome</dd>
+            <dt class="col-sm-3">Email</dt>
+            <dd class="col-sm-9">@Model.Email</dd>
+            <dt class="col-sm-3">Telefone</dt>
+            <dd class="col-sm-9">@Model.Telefone</dd>
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9"><span class="badge @classeBadge">@Model.ClienteStatus?.Nome</span></dd>
+        </dl>
+    </div>
+</div>
+
+<h5 class="text-white mb-3">Caixas Postais Vinculadas</h5>
+
+<div class="card bg-dark border-secondary mb-3">
+    <div class="card-body p-0">
+        <table class="table table-dark table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Empresa</th>
+                    <th>Sócio</th>
+                    <th>Valor Mensal</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.CaixasPostais.Any())
+                {
+                    <tr><td colspan="5" class="text-center text-muted">Nenhuma caixa postal vinculada</td></tr>
+                }
+                @foreach (var caixa in Model.CaixasPostais)
+                {
+                    var classeStatusCaixa = caixa.CaixaStatus?.Nome switch
+                    {
+                        "Ativa" => "bg-success",
+                        "Bloqueada" => "bg-warning text-dark",
+                        _ => "bg-secondary"
+                    };
+                    <tr>
+                        <td>@caixa.Codigo</td>
+                        <td>@caixa.NomeEmpresa</td>
+                        <td>@caixa.Socio?.Nome</td>
+                        <td>@caixa.ValorMensal.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</td>
+                        <td><span class="badge @classeStatusCaixa">@caixa.CaixaStatus?.Nome</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<a asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Voltar</a>

@@ -1,0 +1,76 @@
+@model Cobranca
+@{
+    ViewData["Title"] = "Detalhes da Cobrança";
+    var classeBadge = Model.CobrancaStatus?.Nome switch
+    {
+        "Pago" => "bg-success",
+        "Pendente" => "bg-warning text-dark",
+        "Atrasado" => "bg-danger",
+        _ => "bg-secondary"
+    };
+}
+
+<h4 class="text-white mb-3"><i class="bi bi-cash-coin"></i> Detalhes da Cobrança</h4>
+
+<div class="card bg-dark border-secondary mb-3" style="max-width: 700px;">
+    <div class="card-body text-white">
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Caixa Postal</dt>
+            <dd class="col-sm-8">@Model.CaixaPostal?.Codigo</dd>
+            <dt class="col-sm-4">Cliente</dt>
+            <dd class="col-sm-8">@Model.CaixaPostal?.Cliente?.Nome</dd>
+            <dt class="col-sm-4">Sócio</dt>
+            <dd class="col-sm-8">@Model.CaixaPostal?.Socio?.Nome</dd>
+            <dt class="col-sm-4">Valor</dt>
+            <dd class="col-sm-8">@Model.Valor.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</dd>
+            <dt class="col-sm-4">Vencimento</dt>
+            <dd class="col-sm-8">@Model.DataVencimento.ToString("dd/MM/yyyy")</dd>
+            <dt class="col-sm-4">Liquidação</dt>
+            <dd class="col-sm-8">@(Model.DataLiquidacao?.ToString("dd/MM/yyyy") ?? "-")</dd>
+            <dt class="col-sm-4">Status</dt>
+            <dd class="col-sm-8"><span class="badge @classeBadge">@Model.CobrancaStatus?.Nome</span></dd>
+        </dl>
+    </div>
+</div>
+
+@if (Model.CobrancaStatus?.Nome != "Pago")
+{
+    <a asp-controller="HistoricoPagamentos" asp-action="Criar" asp-route-cobrancaId="@Model.Id"
+       class="btn btn-success mb-3">
+        <i class="bi bi-cash"></i> Registrar Pagamento
+    </a>
+}
+
+<h5 class="text-white mb-3">Histórico de Pagamentos</h5>
+
+<div class="card bg-dark border-secondary mb-3">
+    <div class="card-body p-0">
+        <table class="table table-dark table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Valor Pago</th>
+                    <th>Forma</th>
+                    <th>Observação</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.HistoricoPagamentos.Any())
+                {
+                    <tr><td colspan="4" class="text-center text-muted">Nenhum pagamento registrado</td></tr>
+                }
+                @foreach (var pagamento in Model.HistoricoPagamentos.OrderByDescending(p => p.DataPagamento))
+                {
+                    <tr>
+                        <td>@pagamento.DataPagamento.ToString("dd/MM/yyyy")</td>
+                        <td>@pagamento.ValorPago.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</td>
+                        <td>@pagamento.FormaPagamento?.Nome</td>
+                        <td>@pagamento.Observacao</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<a asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Voltar</a>

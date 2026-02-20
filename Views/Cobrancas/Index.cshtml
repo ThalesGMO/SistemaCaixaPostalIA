@@ -1,0 +1,87 @@
+@model IEnumerable<CobrancaViewModel>
+@{
+    ViewData["Title"] = "Cobranças";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="text-white"><i class="bi bi-cash-coin"></i> Cobranças</h4>
+    <form asp-action="GerarCobrancasMensais" method="post" class="d-inline">
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Gerar Cobranças do Mês
+        </button>
+    </form>
+</div>
+
+<div class="card bg-dark border-secondary mb-3">
+    <div class="card-body py-2">
+        <form method="get" class="d-flex align-items-center gap-2">
+            <label class="text-white text-nowrap">Filtrar por Status:</label>
+            <select name="statusId" class="form-select form-select-sm bg-dark text-white border-secondary"
+                    onchange="this.form.submit()" style="max-width: 200px;">
+                <option value="">Todos</option>
+                @if (ViewBag.ListaStatusCobranca != null)
+                {
+                    @foreach (var item in (Microsoft.AspNetCore.Mvc.Rendering.SelectList)ViewBag.ListaStatusCobranca)
+                    {
+                        <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+                    }
+                }
+            </select>
+        </form>
+    </div>
+</div>
+
+<div class="card bg-dark border-secondary">
+    <div class="card-body p-0">
+        <table class="table table-dark table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Caixa</th>
+                    <th>Cliente</th>
+                    <th>Vencimento</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                    <th>Liquidação</th>
+                    <th width="150">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="7" class="text-center text-muted">Nenhuma cobrança encontrada</td></tr>
+                }
+                @foreach (var cobranca in Model)
+                {
+                    var classeBadge = cobranca.NomeStatus switch
+                    {
+                        "Pago" => "bg-success",
+                        "Pendente" => "bg-warning text-dark",
+                        "Atrasado" => "bg-danger",
+                        _ => "bg-secondary"
+                    };
+                    <tr>
+                        <td>@cobranca.CodigoCaixa</td>
+                        <td>@cobranca.NomeCliente</td>
+                        <td>@cobranca.DataVencimento.ToString("dd/MM/yyyy")</td>
+                        <td>@cobranca.Valor.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</td>
+                        <td><span class="badge @classeBadge">@cobranca.NomeStatus</span></td>
+                        <td>@cobranca.DataLiquidacao?.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            <a asp-action="Detalhes" asp-route-id="@cobranca.Id" class="btn btn-sm btn-outline-info">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            @if (cobranca.NomeStatus != "Pago")
+                            {
+                                <a asp-controller="HistoricoPagamentos" asp-action="Criar"
+                                   asp-route-cobrancaId="@cobranca.Id" class="btn btn-sm btn-outline-success">
+                                    <i class="bi bi-cash"></i> Pagar
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

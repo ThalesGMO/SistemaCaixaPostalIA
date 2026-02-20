@@ -1,0 +1,78 @@
+@model CaixaPostal
+@{
+    ViewData["Title"] = "Detalhes da Caixa Postal";
+    var classeBadge = Model.CaixaStatus?.Nome switch
+    {
+        "Ativa" => "bg-success",
+        "Bloqueada" => "bg-warning text-dark",
+        _ => "bg-secondary"
+    };
+}
+
+<h4 class="text-white mb-3"><i class="bi bi-mailbox"></i> Detalhes da Caixa Postal</h4>
+
+<div class="card bg-dark border-secondary mb-3" style="max-width: 700px;">
+    <div class="card-body text-white">
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Código</dt>
+            <dd class="col-sm-8">@Model.Codigo</dd>
+            <dt class="col-sm-4">Empresa</dt>
+            <dd class="col-sm-8">@Model.NomeEmpresa</dd>
+            <dt class="col-sm-4">CPF/CNPJ</dt>
+            <dd class="col-sm-8">@Model.CpfCnpj</dd>
+            <dt class="col-sm-4">Cliente</dt>
+            <dd class="col-sm-8">@Model.Cliente?.Nome</dd>
+            <dt class="col-sm-4">Sócio</dt>
+            <dd class="col-sm-8">@Model.Socio?.Nome</dd>
+            <dt class="col-sm-4">Valor Mensal</dt>
+            <dd class="col-sm-8">@Model.ValorMensal.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</dd>
+            <dt class="col-sm-4">Dia Vencimento</dt>
+            <dd class="col-sm-8">@Model.DiaVencimento</dd>
+            <dt class="col-sm-4">Data de Aluguel</dt>
+            <dd class="col-sm-8">@Model.DataAluguel.ToString("dd/MM/yyyy")</dd>
+            <dt class="col-sm-4">Status</dt>
+            <dd class="col-sm-8"><span class="badge @classeBadge">@Model.CaixaStatus?.Nome</span></dd>
+        </dl>
+    </div>
+</div>
+
+<h5 class="text-white mb-3">Cobranças</h5>
+
+<div class="card bg-dark border-secondary mb-3">
+    <div class="card-body p-0">
+        <table class="table table-dark table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Vencimento</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                    <th>Liquidação</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Cobrancas.Any())
+                {
+                    <tr><td colspan="4" class="text-center text-muted">Nenhuma cobrança registrada</td></tr>
+                }
+                @foreach (var cobranca in Model.Cobrancas.OrderByDescending(c => c.DataVencimento))
+                {
+                    var classeCobranca = cobranca.CobrancaStatus?.Nome switch
+                    {
+                        "Pago" => "bg-success",
+                        "Pendente" => "bg-warning text-dark",
+                        "Atrasado" => "bg-danger",
+                        _ => "bg-secondary"
+                    };
+                    <tr>
+                        <td>@cobranca.DataVencimento.ToString("dd/MM/yyyy")</td>
+                        <td>@cobranca.Valor.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</td>
+                        <td><span class="badge @classeCobranca">@cobranca.CobrancaStatus?.Nome</span></td>
+                        <td>@cobranca.DataLiquidacao?.ToString("dd/MM/yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<a asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Voltar</a>

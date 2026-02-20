@@ -1,0 +1,85 @@
+@model CaixaPostalViewModel
+@{
+    ViewData["Title"] = "Editar Caixa Postal";
+}
+
+<h4 class="text-white mb-3"><i class="bi bi-pencil"></i> Editar Caixa Postal</h4>
+
+<div class="card bg-dark border-secondary" style="max-width: 700px;">
+    <div class="card-body">
+        <form asp-action="Editar" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Codigo" class="form-label text-white">Código da Caixa</label>
+                    <input asp-for="Codigo" class="form-control bg-dark text-white border-secondary" />
+                    <span asp-validation-for="Codigo" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="NomeEmpresa" class="form-label text-white">Nome da Empresa</label>
+                    <input asp-for="NomeEmpresa" class="form-control bg-dark text-white border-secondary" />
+                    <span asp-validation-for="NomeEmpresa" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="CpfCnpj" class="form-label text-white">CPF/CNPJ</label>
+                    <input asp-for="CpfCnpj" class="form-control bg-dark text-white border-secondary"
+                           placeholder="Apenas números (11 ou 14 dígitos)" />
+                    <span asp-validation-for="CpfCnpj" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="ValorMensal" class="form-label text-white">Valor Mensal (R$)</label>
+                    <input asp-for="ValorMensal" class="form-control bg-dark text-white border-secondary" type="number" step="0.01" />
+                    <span asp-validation-for="ValorMensal" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label asp-for="IdSocio" class="form-label text-white">Sócio</label>
+                    <select asp-for="IdSocio" asp-items="Model.ListaSocios"
+                            class="form-select bg-dark text-white border-secondary">
+                        <option value="">Selecione...</option>
+                    </select>
+                    <span asp-validation-for="IdSocio" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label asp-for="IdCliente" class="form-label text-white">Cliente</label>
+                    <select asp-for="IdCliente" asp-items="Model.ListaClientes"
+                            class="form-select bg-dark text-white border-secondary">
+                        <option value="">Selecione...</option>
+                    </select>
+                    <span asp-validation-for="IdCliente" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label asp-for="IdStatusCaixa" class="form-label text-white">Status</label>
+                    <select asp-for="IdStatusCaixa" asp-items="Model.ListaStatus"
+                            class="form-select bg-dark text-white border-secondary"></select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label asp-for="DataAluguel" class="form-label text-white">Data de Aluguel</label>
+                    <input asp-for="DataAluguel" class="form-control bg-dark text-white border-secondary" type="date" />
+                    <span asp-validation-for="DataAluguel" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label asp-for="DiaVencimento" class="form-label text-white">Dia de Vencimento</label>
+                    <input asp-for="DiaVencimento" class="form-control bg-dark text-white border-secondary"
+                           type="number" min="1" max="31" />
+                    <span asp-validation-for="DiaVencimento" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success"><i class="bi bi-check-lg"></i> Salvar</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>

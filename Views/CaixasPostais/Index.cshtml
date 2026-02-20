@@ -1,0 +1,65 @@
+@model IEnumerable<CaixaPostal>
+@{
+    ViewData["Title"] = "Caixas Postais";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="text-white"><i class="bi bi-mailbox"></i> Caixas Postais</h4>
+    <a asp-action="Criar" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Nova Caixa
+    </a>
+</div>
+
+<div class="card bg-dark border-secondary">
+    <div class="card-body p-0">
+        <table class="table table-dark table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Empresa</th>
+                    <th>CPF/CNPJ</th>
+                    <th>Cliente</th>
+                    <th>Sócio</th>
+                    <th>Valor Mensal</th>
+                    <th>Status</th>
+                    <th width="200">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="8" class="text-center text-muted">Nenhuma caixa postal encontrada</td></tr>
+                }
+                @foreach (var caixa in Model)
+                {
+                    var classeBadge = caixa.CaixaStatus?.Nome switch
+                    {
+                        "Ativa" => "bg-success",
+                        "Bloqueada" => "bg-warning text-dark",
+                        _ => "bg-secondary"
+                    };
+                    <tr>
+                        <td>@caixa.Codigo</td>
+                        <td>@caixa.NomeEmpresa</td>
+                        <td>@caixa.CpfCnpj</td>
+                        <td>@caixa.Cliente?.Nome</td>
+                        <td>@caixa.Socio?.Nome</td>
+                        <td>@caixa.ValorMensal.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</td>
+                        <td><span class="badge @classeBadge">@caixa.CaixaStatus?.Nome</span></td>
+                        <td>
+                            <a asp-action="Detalhes" asp-route-id="@caixa.Id" class="btn btn-sm btn-outline-info">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a asp-action="Editar" asp-route-id="@caixa.Id" class="btn btn-sm btn-outline-warning">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a asp-action="Excluir" asp-route-id="@caixa.Id" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

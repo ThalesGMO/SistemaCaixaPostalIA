@@ -1,0 +1,31 @@
+@model CaixaPostal
+@{
+    ViewData["Title"] = "Excluir Caixa Postal";
+}
+
+<h4 class="text-white mb-3"><i class="bi bi-trash"></i> Excluir Caixa Postal</h4>
+
+<div class="card bg-dark border-danger" style="max-width: 600px;">
+    <div class="card-body">
+        <p class="text-white">Tem certeza que deseja excluir a caixa postal <strong>@Model.Codigo</strong>?</p>
+
+        <dl class="row text-white">
+            <dt class="col-sm-4">Empresa</dt>
+            <dd class="col-sm-8">@Model.NomeEmpresa</dd>
+            <dt class="col-sm-4">CPF/CNPJ</dt>
+            <dd class="col-sm-8">@Model.CpfCnpj</dd>
+            <dt class="col-sm-4">Cliente</dt>
+            <dd class="col-sm-8">@Model.Cliente?.Nome</dd>
+            <dt class="col-sm-4">Sócio</dt>
+            <dd class="col-sm-8">@Model.Socio?.Nome</dd>
+        </dl>
+
+        <form asp-action="Excluir" method="post">
+            <input type="hidden" value="@Model.Id" name="id" />
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i> Confirmar Exclusão</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
