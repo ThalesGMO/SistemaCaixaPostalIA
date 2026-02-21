@@ -55,8 +55,8 @@ public class CaixaPostalConfiguration : IEntityTypeConfiguration<CaixaPostal>
             tabela.HasCheckConstraint("CK_CaixasPostais_DiaVencimento",
                 "\"DiaVencimento\" BETWEEN 1 AND 31"));
 
-        builder.Property(caixa => caixa.ValorMensal)
-            .HasColumnName("ValorMensal")
+        builder.Property(caixa => caixa.Valor)
+            .HasColumnName("Valor")
             .HasColumnType("decimal(18,2)");
 
         builder.HasOne(caixa => caixa.Socio)

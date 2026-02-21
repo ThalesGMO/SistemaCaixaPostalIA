@@ -31,10 +31,10 @@
                            placeholder="Apenas números (11 ou 14 dígitos)" />
                     <span asp-validation-for="CpfCnpj" class="text-danger"></span>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label asp-for="ValorMensal" class="form-label text-white">Valor Mensal (R$)</label>
-                    <input asp-for="ValorMensal" class="form-control bg-dark text-white border-secondary" type="number" step="0.01" />
-                    <span asp-validation-for="ValorMensal" class="text-danger"></span>
+                <div class="col-md-6 mb-3" id="campoValor">
+                    <label asp-for="Valor" class="form-label text-white" id="labelValor">Valor (R$)</label>
+                    <input asp-for="Valor" class="form-control bg-dark text-white border-secondary" type="number" step="0.01" />
+                    <span asp-validation-for="Valor" class="text-danger"></span>
                 </div>
             </div>
 
@@ -91,3 +91,28 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        (function () {
+            var tipoSelect = document.getElementById('IdTipoCaixa');
+            var campoValor = document.getElementById('campoValor');
+            var labelValor = document.getElementById('labelValor');
+            var inputValor = document.getElementById('Valor');
+
+            function atualizarCampoValor() {
+                var tipo = tipoSelect.value;
+                if (tipo === '2') {
+                    campoValor.style.display = 'none';
+                    inputValor.value = '0';
+                } else {
+                    campoValor.style.display = '';
+                    labelValor.textContent = tipo === '1' ? 'Valor Anual (R$)' : 'Valor Mensal (R$)';
+                }
+            }
+
+            tipoSelect.addEventListener('change', atualizarCampoValor);
+            atualizarCampoValor();
+        })();
+    </script>
+}

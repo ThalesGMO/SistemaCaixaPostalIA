@@ -36,9 +36,7 @@ public class CaixaPostalViewModel
     [Range(1, 31, ErrorMessage = "O dia de vencimento deve ser entre 1 e 31.")]
     public int DiaVencimento { get; set; }
 
-    [Required(ErrorMessage = "O valor mensal é obrigatório.")]
-    [Range(0.01, double.MaxValue, ErrorMessage = "O valor mensal deve ser maior que zero.")]
-    public decimal ValorMensal { get; set; }
+    public decimal Valor { get; set; }
 
     public string? NomeSocio { get; set; }
     public string? NomeCliente { get; set; }

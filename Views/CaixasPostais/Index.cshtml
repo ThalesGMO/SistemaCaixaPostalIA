@@ -21,7 +21,7 @@
                     <th>Cliente</th>
                     <th>Sócio</th>
                     <th>Tipo</th>
-                    <th>Valor Mensal</th>
+                    <th>Valor</th>
                     <th>Status</th>
                     <th width="200">Ações</th>
                 </tr>
@@ -46,7 +46,7 @@
                         <td>@caixa.Cliente?.Nome</td>
                         <td>@caixa.Socio?.Nome</td>
                         <td><span class="badge @(caixa.TipoCaixa?.Nome == "Cortesia" ? "bg-info text-dark" : "bg-primary")">@caixa.TipoCaixa?.Nome</span></td>
-                        <td>@caixa.ValorMensal.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</td>
+                        <td>@(caixa.IdTipoCaixa == 2 ? "-" : caixa.Valor.ToString("C", new System.Globalization.CultureInfo("pt-BR")))</td>
                         <td><span class="badge @classeBadge">@caixa.CaixaStatus?.Nome</span></td>
                         <td>
                             <a asp-action="Detalhes" asp-route-id="@caixa.Id" class="btn btn-sm btn-outline-info">

@@ -26,8 +26,11 @@
             <dd class="col-sm-8">@Model.Socio?.Nome</dd>
             <dt class="col-sm-4">Tipo</dt>
             <dd class="col-sm-8"><span class="badge @(Model.TipoCaixa?.Nome == "Cortesia" ? "bg-info text-dark" : "bg-primary")">@Model.TipoCaixa?.Nome</span></dd>
-            <dt class="col-sm-4">Valor Mensal</dt>
-            <dd class="col-sm-8">@Model.ValorMensal.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</dd>
+            @if (Model.IdTipoCaixa != 2)
+            {
+                <dt class="col-sm-4">@(Model.IdTipoCaixa == 1 ? "Valor Anual" : "Valor Mensal")</dt>
+                <dd class="col-sm-8">@Model.Valor.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</dd>
+            }
             <dt class="col-sm-4">Dia Vencimento</dt>
             <dd class="col-sm-8">@Model.DiaVencimento</dd>
             <dt class="col-sm-4">Data de Aluguel</dt>

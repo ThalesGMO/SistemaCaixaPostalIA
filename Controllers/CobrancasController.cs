@@ -76,12 +76,13 @@ public class CobrancasController : ControladorBase
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> GerarCobrancasMensais()
+    public async Task<IActionResult> GerarCobrancas()
     {
         var hoje = DateTime.Today;
 
         var caixasAtivas = await Contexto.CaixasPostais
             .Where(caixa => caixa.IdStatusCaixa == (int)CaixaStatusEnum.Ativa)
+            .Where(caixa => caixa.IdTipoCaixa != (int)TipoCaixaEnum.Cortesia)
             .AsNoTracking()
             .ToListAsync();
 
@@ -89,11 +90,23 @@ public class CobrancasController : ControladorBase
 
         foreach (var caixa in caixasAtivas)
         {
-            var jaExisteCobranca = await Contexto.Cobrancas
-                .AnyAsync(cobranca =>
-                    cobranca.IdCaixaPostal == caixa.Id
-                    && cobranca.DataVencimento.Month == hoje.Month
-                    && cobranca.DataVencimento.Year == hoje.Year);
+            bool jaExisteCobranca;
+
+            if (caixa.IdTipoCaixa == (int)TipoCaixaEnum.Anuidade)
+            {
+                jaExisteCobranca = await Contexto.Cobrancas
+                    .AnyAsync(cobranca =>
+                        cobranca.IdCaixaPostal == caixa.Id
+                        && cobranca.DataVencimento.Year == hoje.Year);
+            }
+            else
+            {
+                jaExisteCobranca = await Contexto.Cobrancas
+                    .AnyAsync(cobranca =>
+                        cobranca.IdCaixaPostal == caixa.Id
+                        && cobranca.DataVencimento.Month == hoje.Month
+                        && cobranca.DataVencimento.Year == hoje.Year);
+            }
 
             if (jaExisteCobranca)
                 continue;
@@ -104,7 +117,7 @@ public class CobrancasController : ControladorBase
             {
                 IdCaixaPostal = caixa.Id,
                 IdStatusCobranca = (short)CobrancaStatusEnum.Pendente,
-                Valor = caixa.ValorMensal,
+                Valor = caixa.Valor,
                 DataVencimento = new DateTime(hoje.Year, hoje.Month, diaVencimento)
             };
 
@@ -116,7 +129,7 @@ public class CobrancasController : ControladorBase
 
         TempData["Sucesso"] = cobrancasCriadas > 0
             ? $"{cobrancasCriadas} cobrança(s) gerada(s) com sucesso!"
-            : "Todas as cobranças do mês já foram geradas.";
+            : "Todas as cobranças já foram geradas.";
 
         return RedirectToAction(nameof(Index));
     }

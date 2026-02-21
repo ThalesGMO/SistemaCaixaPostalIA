@@ -57,7 +57,7 @@
                         <td>@caixa.Codigo</td>
                         <td>@caixa.NomeEmpresa</td>
                         <td>@caixa.Socio?.Nome</td>
-                        <td>@caixa.ValorMensal.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</td>
+                        <td>@caixa.Valor.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</td>
                         <td><span class="badge @classeStatusCaixa">@caixa.CaixaStatus?.Nome</span></td>
                     </tr>
                 }

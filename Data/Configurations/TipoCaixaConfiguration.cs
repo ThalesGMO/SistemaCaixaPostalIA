@@ -23,7 +23,8 @@ public class TipoCaixaConfiguration : IEntityTypeConfiguration<TipoCaixa>
 
         builder.HasData(
             new TipoCaixa { Id = 1, Nome = "Anuidade" },
-            new TipoCaixa { Id = 2, Nome = "Cortesia" }
+            new TipoCaixa { Id = 2, Nome = "Cortesia" },
+            new TipoCaixa { Id = 3, Nome = "Mensalidade" }
         );
     }
 }

@@ -12,7 +12,7 @@ public class CaixaPostal
     public string CpfCnpj { get; set; } = string.Empty;
     public DateTime DataAluguel { get; set; }
     public int DiaVencimento { get; set; }
-    public decimal ValorMensal { get; set; }
+    public decimal Valor { get; set; }
 
     public virtual Socio? Socio { get; set; }
     public virtual Cliente? Cliente { get; set; }

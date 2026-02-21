@@ -57,7 +57,7 @@ public class CaixasPostaisController : ControladorBase
         var viewModel = new CaixaPostalViewModel
         {
             IdStatusCaixa = (int)CaixaStatusEnum.Ativa,
-            IdTipoCaixa = (int)TipoCaixaEnum.Anuidade,
+            IdTipoCaixa = (int)TipoCaixaEnum.Mensalidade,
             DataAluguel = DateTime.Today
         };
 
@@ -72,11 +72,16 @@ public class CaixasPostaisController : ControladorBase
         if (!ValidarCpfCnpj(viewModel.CpfCnpj))
             ModelState.AddModelError("CpfCnpj", "O CPF deve ter 11 dígitos ou o CNPJ deve ter 14 dígitos.");
 
+        ValidarPorTipo(viewModel);
+
         if (!ModelState.IsValid)
         {
             await PreencherListasDropdown(viewModel);
             return View(viewModel);
         }
+
+        if (viewModel.IdTipoCaixa == (int)TipoCaixaEnum.Cortesia)
+            viewModel.Valor = 0;
 
         var caixa = new CaixaPostal
         {
@@ -89,7 +94,7 @@ public class CaixasPostaisController : ControladorBase
             CpfCnpj = viewModel.CpfCnpj,
             DataAluguel = viewModel.DataAluguel,
             DiaVencimento = viewModel.DiaVencimento,
-            ValorMensal = viewModel.ValorMensal
+            Valor = viewModel.Valor
         };
 
         Contexto.CaixasPostais.Add(caixa);
@@ -118,7 +123,7 @@ public class CaixasPostaisController : ControladorBase
             CpfCnpj = caixa.CpfCnpj,
             DataAluguel = caixa.DataAluguel,
             DiaVencimento = caixa.DiaVencimento,
-            ValorMensal = caixa.ValorMensal
+            Valor = caixa.Valor
         };
 
         await PreencherListasDropdown(viewModel);
@@ -135,11 +140,16 @@ public class CaixasPostaisController : ControladorBase
         if (!ValidarCpfCnpj(viewModel.CpfCnpj))
             ModelState.AddModelError("CpfCnpj", "O CPF deve ter 11 dígitos ou o CNPJ deve ter 14 dígitos.");
 
+        ValidarPorTipo(viewModel);
+
         if (!ModelState.IsValid)
         {
             await PreencherListasDropdown(viewModel);
             return View(viewModel);
         }
+
+        if (viewModel.IdTipoCaixa == (int)TipoCaixaEnum.Cortesia)
+            viewModel.Valor = 0;
 
         var caixa = await Contexto.CaixasPostais.FindAsync(id);
 
@@ -155,7 +165,7 @@ public class CaixasPostaisController : ControladorBase
         caixa.CpfCnpj = viewModel.CpfCnpj;
         caixa.DataAluguel = viewModel.DataAluguel;
         caixa.DiaVencimento = viewModel.DiaVencimento;
-        caixa.ValorMensal = viewModel.ValorMensal;
+        caixa.Valor = viewModel.Valor;
 
         await Contexto.SaveChangesAsync();
 
@@ -207,6 +217,12 @@ public class CaixasPostaisController : ControladorBase
     private bool ValidarCpfCnpj(string cpfCnpj)
     {
         return ValidadorCpfCnpj.PossuiTamanhoValido(cpfCnpj);
+    }
+
+    private void ValidarPorTipo(CaixaPostalViewModel viewModel)
+    {
+        if (viewModel.IdTipoCaixa != (int)TipoCaixaEnum.Cortesia && viewModel.Valor <= 0)
+            ModelState.AddModelError("Valor", "O valor deve ser maior que zero.");
     }
 
     private async Task PreencherListasDropdown(CaixaPostalViewModel viewModel)

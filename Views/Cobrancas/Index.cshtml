@@ -5,10 +5,10 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4 class="text-white"><i class="bi bi-cash-coin"></i> Cobranças</h4>
-    <form asp-action="GerarCobrancasMensais" method="post" class="d-inline">
+    <form asp-action="GerarCobrancas" method="post" class="d-inline">
         @Html.AntiForgeryToken()
         <button type="submit" class="btn btn-success">
-            <i class="bi bi-plus-circle"></i> Gerar Cobranças do Mês
+            <i class="bi bi-plus-circle"></i> Gerar Cobranças
         </button>
     </form>
 </div>
