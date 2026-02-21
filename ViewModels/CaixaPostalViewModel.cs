@@ -28,9 +28,8 @@ public class CaixaPostalViewModel
     [MaxLength(14, ErrorMessage = "O CPF/CNPJ deve ter no máximo 14 caracteres.")]
     public string CpfCnpj { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "A data de aluguel é obrigatória.")]
     [DataType(DataType.Date)]
-    public DateTime DataAluguel { get; set; } = DateTime.Today;
+    public DateTime? DataAluguel { get; set; }
 
     [Required(ErrorMessage = "O dia de vencimento é obrigatório.")]
     [Range(1, 31, ErrorMessage = "O dia de vencimento deve ser entre 1 e 31.")]

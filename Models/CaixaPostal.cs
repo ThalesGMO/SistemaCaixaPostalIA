@@ -10,7 +10,7 @@ public class CaixaPostal
     public string Codigo { get; set; } = string.Empty;
     public string? NomeEmpresa { get; set; }
     public string CpfCnpj { get; set; } = string.Empty;
-    public DateTime DataAluguel { get; set; }
+    public DateTime? DataAluguel { get; set; }
     public int DiaVencimento { get; set; }
     public decimal Valor { get; set; }
 

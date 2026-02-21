@@ -37,7 +37,7 @@
                 <dd class="col-sm-8">@Model.DiaVencimento</dd>
             }
             <dt class="col-sm-4">Data de Aluguel</dt>
-            <dd class="col-sm-8">@Model.DataAluguel.ToString("dd/MM/yyyy")</dd>
+            <dd class="col-sm-8">@(Model.DataAluguel?.ToString("dd/MM/yyyy") ?? "—")</dd>
             <dt class="col-sm-4">Status</dt>
             <dd class="col-sm-8"><span class="badge @classeBadge">@Model.CaixaStatus?.Nome</span></dd>
         </dl>

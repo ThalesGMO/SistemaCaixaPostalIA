@@ -46,7 +46,7 @@ public class CaixaPostalConfiguration : IEntityTypeConfiguration<CaixaPostal>
         builder.Property(caixa => caixa.DataAluguel)
             .HasColumnName("DataAluguel")
             .HasColumnType("date")
-            .HasDefaultValueSql("CURRENT_DATE");
+            .IsRequired(false);
 
         builder.Property(caixa => caixa.DiaVencimento)
             .HasColumnName("DiaVencimento");
