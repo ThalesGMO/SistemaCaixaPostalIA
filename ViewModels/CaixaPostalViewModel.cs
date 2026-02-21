@@ -25,7 +25,7 @@ public class CaixaPostalViewModel
     public string? NomeEmpresa { get; set; }
 
     [Required(ErrorMessage = "O CPF/CNPJ é obrigatório.")]
-    [MaxLength(14, ErrorMessage = "O CPF/CNPJ deve ter no máximo 14 caracteres.")]
+    [MaxLength(18, ErrorMessage = "O CPF/CNPJ deve ter no máximo 18 caracteres.")]
     public string CpfCnpj { get; set; } = string.Empty;
 
     [DataType(DataType.Date)]

@@ -28,7 +28,7 @@
                 <div class="col-md-6 mb-3">
                     <label asp-for="CpfCnpj" class="form-label text-white">CPF/CNPJ</label>
                     <input asp-for="CpfCnpj" class="form-control bg-dark text-white border-secondary"
-                           placeholder="Apenas números (11 ou 14 dígitos)" />
+                           placeholder="000.000.000-00 ou 00.000.000/0000-00" maxlength="18" />
                     <span asp-validation-for="CpfCnpj" class="text-danger"></span>
                 </div>
                 <div class="col-md-6 mb-3" id="campoValor">
@@ -118,6 +118,23 @@
 
             tipoSelect.addEventListener('change', atualizarCampoValor);
             atualizarCampoValor();
+
+            var inputCpfCnpj = document.getElementById('CpfCnpj');
+            inputCpfCnpj.addEventListener('input', function () {
+                var valor = this.value.replace(/\D/g, '');
+                if (valor.length <= 11) {
+                    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+                    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+                    valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                } else {
+                    valor = valor.substring(0, 14);
+                    valor = valor.replace(/(\d{2})(\d)/, '$1.$2');
+                    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+                    valor = valor.replace(/(\d{3})(\d)/, '$1/$2');
+                    valor = valor.replace(/(\d{4})(\d{1,2})$/, '$1-$2');
+                }
+                this.value = valor;
+            });
         })();
     </script>
 }

@@ -41,7 +41,7 @@ public class CaixaPostalConfiguration : IEntityTypeConfiguration<CaixaPostal>
         builder.Property(caixa => caixa.CpfCnpj)
             .HasColumnName("CpfCnpj")
             .IsRequired()
-            .HasMaxLength(14);
+            .HasMaxLength(18);
 
         builder.Property(caixa => caixa.DataAluguel)
             .HasColumnName("DataAluguel")
