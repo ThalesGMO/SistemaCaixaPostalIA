@@ -13,6 +13,7 @@ public class CobrancaViewModel
 
     public string CodigoCaixa { get; set; } = string.Empty;
     public string NomeCliente { get; set; } = string.Empty;
+    public string? TelefoneCliente { get; set; }
     public string NomeStatus { get; set; } = string.Empty;
 
     public SelectList? ListaStatus { get; set; }

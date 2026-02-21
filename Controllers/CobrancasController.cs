@@ -44,6 +44,7 @@ public class CobrancasController : ControladorBase
                 DataLiquidacao = cobranca.DataLiquidacao,
                 CodigoCaixa = cobranca.CaixaPostal!.Codigo,
                 NomeCliente = cobranca.CaixaPostal.Cliente!.Nome,
+                TelefoneCliente = cobranca.CaixaPostal.Cliente.Telefone,
                 NomeStatus = cobranca.CobrancaStatus!.Nome
             })
             .ToListAsync();

@@ -43,7 +43,7 @@
                     <th>Valor</th>
                     <th>Status</th>
                     <th>Liquidação</th>
-                    <th width="150">Ações</th>
+                    <th width="200">Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,6 +71,13 @@
                             <a asp-action="Detalhes" asp-route-id="@cobranca.Id" class="btn btn-sm btn-outline-info">
                                 <i class="bi bi-eye"></i>
                             </a>
+                            @if (!string.IsNullOrEmpty(cobranca.TelefoneCliente))
+                            {
+                                var telefoneWhatsApp = "55" + new string(cobranca.TelefoneCliente.Where(char.IsDigit).ToArray());
+                                <a href="https://wa.me/@telefoneWhatsApp" target="_blank" class="btn btn-sm btn-outline-success">
+                                    <i class="bi bi-whatsapp"></i>
+                                </a>
+                            }
                             @if (cobranca.NomeStatus != "Pago")
                             {
                                 <a asp-controller="HistoricoPagamentos" asp-action="Criar"
