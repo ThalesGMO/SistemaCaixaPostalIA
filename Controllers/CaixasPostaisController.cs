@@ -21,6 +21,7 @@ public class CaixasPostaisController : ControladorBase
             .Include(caixa => caixa.Cliente)
             .Include(caixa => caixa.Socio)
             .Include(caixa => caixa.CaixaStatus)
+            .Include(caixa => caixa.TipoCaixa)
             .AsNoTracking();
 
         if (idSocio.HasValue)
@@ -39,6 +40,7 @@ public class CaixasPostaisController : ControladorBase
             .Include(caixa => caixa.Cliente)
             .Include(caixa => caixa.Socio)
             .Include(caixa => caixa.CaixaStatus)
+            .Include(caixa => caixa.TipoCaixa)
             .Include(caixa => caixa.Cobrancas)
                 .ThenInclude(cobranca => cobranca.CobrancaStatus)
             .AsNoTracking()
@@ -55,6 +57,7 @@ public class CaixasPostaisController : ControladorBase
         var viewModel = new CaixaPostalViewModel
         {
             IdStatusCaixa = (int)CaixaStatusEnum.Ativa,
+            IdTipoCaixa = (int)TipoCaixaEnum.Anuidade,
             DataAluguel = DateTime.Today
         };
 
@@ -80,6 +83,7 @@ public class CaixasPostaisController : ControladorBase
             IdSocio = viewModel.IdSocio,
             IdCliente = viewModel.IdCliente,
             IdStatusCaixa = viewModel.IdStatusCaixa,
+            IdTipoCaixa = viewModel.IdTipoCaixa,
             Codigo = viewModel.Codigo,
             NomeEmpresa = viewModel.NomeEmpresa,
             CpfCnpj = viewModel.CpfCnpj,
@@ -108,6 +112,7 @@ public class CaixasPostaisController : ControladorBase
             IdSocio = caixa.IdSocio,
             IdCliente = caixa.IdCliente,
             IdStatusCaixa = caixa.IdStatusCaixa,
+            IdTipoCaixa = caixa.IdTipoCaixa,
             Codigo = caixa.Codigo,
             NomeEmpresa = caixa.NomeEmpresa,
             CpfCnpj = caixa.CpfCnpj,
@@ -144,6 +149,7 @@ public class CaixasPostaisController : ControladorBase
         caixa.IdSocio = viewModel.IdSocio;
         caixa.IdCliente = viewModel.IdCliente;
         caixa.IdStatusCaixa = viewModel.IdStatusCaixa;
+        caixa.IdTipoCaixa = viewModel.IdTipoCaixa;
         caixa.Codigo = viewModel.Codigo;
         caixa.NomeEmpresa = viewModel.NomeEmpresa;
         caixa.CpfCnpj = viewModel.CpfCnpj;
@@ -163,6 +169,7 @@ public class CaixasPostaisController : ControladorBase
             .Include(caixa => caixa.Cliente)
             .Include(caixa => caixa.Socio)
             .Include(caixa => caixa.CaixaStatus)
+            .Include(caixa => caixa.TipoCaixa)
             .AsNoTracking()
             .FirstOrDefaultAsync(caixa => caixa.Id == id);
 
@@ -207,9 +214,11 @@ public class CaixasPostaisController : ControladorBase
         var socios = await Contexto.Socios.AsNoTracking().OrderBy(socio => socio.Nome).ToListAsync();
         var clientes = await Contexto.Clientes.AsNoTracking().OrderBy(cliente => cliente.Nome).ToListAsync();
         var statusList = await Contexto.CaixasStatus.AsNoTracking().OrderBy(status => status.Id).ToListAsync();
+        var tiposList = await Contexto.TiposCaixa.AsNoTracking().OrderBy(tipo => tipo.Id).ToListAsync();
 
         viewModel.ListaSocios = new SelectList(socios, "Id", "Nome", viewModel.IdSocio);
         viewModel.ListaClientes = new SelectList(clientes, "Id", "Nome", viewModel.IdCliente);
         viewModel.ListaStatus = new SelectList(statusList, "Id", "Nome", viewModel.IdStatusCaixa);
+        viewModel.ListaTipos = new SelectList(tiposList, "Id", "Nome", viewModel.IdTipoCaixa);
     }
 }

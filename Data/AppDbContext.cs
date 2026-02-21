@@ -10,6 +10,7 @@ public class AppDbContext : DbContext
     public DbSet<Socio> Socios => Set<Socio>();
     public DbSet<ClienteStatus> ClientesStatus => Set<ClienteStatus>();
     public DbSet<CaixaStatus> CaixasStatus => Set<CaixaStatus>();
+    public DbSet<TipoCaixa> TiposCaixa => Set<TipoCaixa>();
     public DbSet<CobrancaStatus> CobrancasStatus => Set<CobrancaStatus>();
     public DbSet<FormaPagamento> FormaPagamentos => Set<FormaPagamento>();
     public DbSet<Cliente> Clientes => Set<Cliente>();

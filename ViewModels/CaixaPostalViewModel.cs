@@ -15,6 +15,8 @@ public class CaixaPostalViewModel
 
     public int IdStatusCaixa { get; set; }
 
+    public int IdTipoCaixa { get; set; }
+
     [Required(ErrorMessage = "O código da caixa é obrigatório.")]
     [MaxLength(100, ErrorMessage = "O código deve ter no máximo 100 caracteres.")]
     public string Codigo { get; set; } = string.Empty;
@@ -41,8 +43,10 @@ public class CaixaPostalViewModel
     public string? NomeSocio { get; set; }
     public string? NomeCliente { get; set; }
     public string? NomeStatus { get; set; }
+    public string? NomeTipo { get; set; }
 
     public SelectList? ListaSocios { get; set; }
     public SelectList? ListaClientes { get; set; }
     public SelectList? ListaStatus { get; set; }
+    public SelectList? ListaTipos { get; set; }
 }

@@ -39,7 +39,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-4 mb-3">
+                <div class="col-md-6 mb-3">
                     <label asp-for="IdSocio" class="form-label text-white">Sócio</label>
                     <select asp-for="IdSocio" asp-items="Model.ListaSocios"
                             class="form-select bg-dark text-white border-secondary">
@@ -47,7 +47,7 @@
                     </select>
                     <span asp-validation-for="IdSocio" class="text-danger"></span>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-6 mb-3">
                     <label asp-for="IdCliente" class="form-label text-white">Cliente</label>
                     <select asp-for="IdCliente" asp-items="Model.ListaClientes"
                             class="form-select bg-dark text-white border-secondary">
@@ -55,7 +55,15 @@
                     </select>
                     <span asp-validation-for="IdCliente" class="text-danger"></span>
                 </div>
-                <div class="col-md-4 mb-3">
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="IdTipoCaixa" class="form-label text-white">Tipo</label>
+                    <select asp-for="IdTipoCaixa" asp-items="Model.ListaTipos"
+                            class="form-select bg-dark text-white border-secondary"></select>
+                </div>
+                <div class="col-md-6 mb-3">
                     <label asp-for="IdStatusCaixa" class="form-label text-white">Status</label>
                     <select asp-for="IdStatusCaixa" asp-items="Model.ListaStatus"
                             class="form-select bg-dark text-white border-secondary"></select>

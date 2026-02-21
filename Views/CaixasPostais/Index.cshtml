@@ -20,6 +20,7 @@
                     <th>CPF/CNPJ</th>
                     <th>Cliente</th>
                     <th>Sócio</th>
+                    <th>Tipo</th>
                     <th>Valor Mensal</th>
                     <th>Status</th>
                     <th width="200">Ações</th>
@@ -28,7 +29,7 @@
             <tbody>
                 @if (!Model.Any())
                 {
-                    <tr><td colspan="8" class="text-center text-muted">Nenhuma caixa postal encontrada</td></tr>
+                    <tr><td colspan="9" class="text-center text-muted">Nenhuma caixa postal encontrada</td></tr>
                 }
                 @foreach (var caixa in Model)
                 {
@@ -44,6 +45,7 @@
                         <td>@caixa.CpfCnpj</td>
                         <td>@caixa.Cliente?.Nome</td>
                         <td>@caixa.Socio?.Nome</td>
+                        <td><span class="badge @(caixa.TipoCaixa?.Nome == "Cortesia" ? "bg-info text-dark" : "bg-primary")">@caixa.TipoCaixa?.Nome</span></td>
                         <td>@caixa.ValorMensal.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</td>
                         <td><span class="badge @classeBadge">@caixa.CaixaStatus?.Nome</span></td>
                         <td>

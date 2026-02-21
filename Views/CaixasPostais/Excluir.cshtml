@@ -18,6 +18,8 @@
             <dd class="col-sm-8">@Model.Cliente?.Nome</dd>
             <dt class="col-sm-4">Sócio</dt>
             <dd class="col-sm-8">@Model.Socio?.Nome</dd>
+            <dt class="col-sm-4">Tipo</dt>
+            <dd class="col-sm-8">@Model.TipoCaixa?.Nome</dd>
         </dl>
 
         <form asp-action="Excluir" method="post">

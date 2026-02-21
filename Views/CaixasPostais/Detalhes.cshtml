@@ -24,6 +24,8 @@
             <dd class="col-sm-8">@Model.Cliente?.Nome</dd>
             <dt class="col-sm-4">Sócio</dt>
             <dd class="col-sm-8">@Model.Socio?.Nome</dd>
+            <dt class="col-sm-4">Tipo</dt>
+            <dd class="col-sm-8"><span class="badge @(Model.TipoCaixa?.Nome == "Cortesia" ? "bg-info text-dark" : "bg-primary")">@Model.TipoCaixa?.Nome</span></dd>
             <dt class="col-sm-4">Valor Mensal</dt>
             <dd class="col-sm-8">@Model.ValorMensal.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</dd>
             <dt class="col-sm-4">Dia Vencimento</dt>

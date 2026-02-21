@@ -25,6 +25,10 @@ public class CaixaPostalConfiguration : IEntityTypeConfiguration<CaixaPostal>
             .HasColumnName("IdStatusCaixa")
             .HasDefaultValue(1);
 
+        builder.Property(caixa => caixa.IdTipoCaixa)
+            .HasColumnName("IdTipoCaixa")
+            .HasDefaultValue(1);
+
         builder.Property(caixa => caixa.Codigo)
             .HasColumnName("Codigo")
             .IsRequired()
@@ -68,6 +72,11 @@ public class CaixaPostalConfiguration : IEntityTypeConfiguration<CaixaPostal>
         builder.HasOne(caixa => caixa.CaixaStatus)
             .WithMany()
             .HasForeignKey(caixa => caixa.IdStatusCaixa)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(caixa => caixa.TipoCaixa)
+            .WithMany()
+            .HasForeignKey(caixa => caixa.IdTipoCaixa)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }
