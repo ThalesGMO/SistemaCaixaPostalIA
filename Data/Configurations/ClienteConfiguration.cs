@@ -30,7 +30,7 @@ public class ClienteConfiguration : IEntityTypeConfiguration<Cliente>
 
         builder.Property(cliente => cliente.Telefone)
             .HasColumnName("Telefone")
-            .HasMaxLength(11);
+            .HasMaxLength(15);
 
         builder.HasOne(cliente => cliente.ClienteStatus)
             .WithMany()

@@ -15,7 +15,7 @@ public class ClienteViewModel
     [EmailAddress(ErrorMessage = "Informe um email válido.")]
     public string? Email { get; set; }
 
-    [MaxLength(11, ErrorMessage = "O telefone deve ter no máximo 11 caracteres.")]
+    [MaxLength(15, ErrorMessage = "O telefone deve ter no máximo 15 caracteres.")]
     public string? Telefone { get; set; }
 
     public int IdClienteStatus { get; set; }

@@ -25,7 +25,8 @@
 
             <div class="mb-3">
                 <label asp-for="Telefone" class="form-label text-white">Telefone</label>
-                <input asp-for="Telefone" class="form-control bg-dark text-white border-secondary" />
+                <input asp-for="Telefone" class="form-control bg-dark text-white border-secondary"
+                       placeholder="(XX) XXXXX-XXXX" maxlength="15" id="telefone" />
                 <span asp-validation-for="Telefone" class="text-danger"></span>
             </div>
 
@@ -42,3 +43,20 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        document.getElementById('telefone').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.substring(0, 11);
+            if (value.length > 6) {
+                value = '(' + value.substring(0, 2) + ') ' + value.substring(2, 7) + '-' + value.substring(7);
+            } else if (value.length > 2) {
+                value = '(' + value.substring(0, 2) + ') ' + value.substring(2);
+            } else if (value.length > 0) {
+                value = '(' + value;
+            }
+            e.target.value = value;
+        });
+    </script>
+}
