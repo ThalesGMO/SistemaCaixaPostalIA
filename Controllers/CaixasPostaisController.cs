@@ -221,8 +221,15 @@ public class CaixasPostaisController : ControladorBase
 
     private void ValidarPorTipo(CaixaPostalViewModel viewModel)
     {
-        if (viewModel.IdTipoCaixa != (int)TipoCaixaEnum.Cortesia && viewModel.Valor <= 0)
-            ModelState.AddModelError("Valor", "O valor deve ser maior que zero.");
+        if (viewModel.IdTipoCaixa == (int)TipoCaixaEnum.Cortesia)
+        {
+            viewModel.DiaVencimento = 1;
+        }
+        else
+        {
+            if (viewModel.Valor <= 0)
+                ModelState.AddModelError("Valor", "O valor deve ser maior que zero.");
+        }
     }
 
     private async Task PreencherListasDropdown(CaixaPostalViewModel viewModel)

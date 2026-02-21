@@ -31,8 +31,11 @@
                 <dt class="col-sm-4">@(Model.IdTipoCaixa == 1 ? "Valor Anual" : "Valor Mensal")</dt>
                 <dd class="col-sm-8">@Model.Valor.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</dd>
             }
-            <dt class="col-sm-4">Dia Vencimento</dt>
-            <dd class="col-sm-8">@Model.DiaVencimento</dd>
+            @if (Model.IdTipoCaixa != 2)
+            {
+                <dt class="col-sm-4">Dia Vencimento</dt>
+                <dd class="col-sm-8">@Model.DiaVencimento</dd>
+            }
             <dt class="col-sm-4">Data de Aluguel</dt>
             <dd class="col-sm-8">@Model.DataAluguel.ToString("dd/MM/yyyy")</dd>
             <dt class="col-sm-4">Status</dt>

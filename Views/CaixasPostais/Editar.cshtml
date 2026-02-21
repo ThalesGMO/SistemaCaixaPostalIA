@@ -76,7 +76,7 @@
                     <input asp-for="DataAluguel" class="form-control bg-dark text-white border-secondary" type="date" />
                     <span asp-validation-for="DataAluguel" class="text-danger"></span>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-4 mb-3" id="campoVencimento">
                     <label asp-for="DiaVencimento" class="form-label text-white">Dia de Vencimento</label>
                     <input asp-for="DiaVencimento" class="form-control bg-dark text-white border-secondary"
                            type="number" min="1" max="31" />
@@ -99,14 +99,19 @@
             var campoValor = document.getElementById('campoValor');
             var labelValor = document.getElementById('labelValor');
             var inputValor = document.getElementById('Valor');
+            var campoVencimento = document.getElementById('campoVencimento');
+            var inputVencimento = document.getElementById('DiaVencimento');
 
             function atualizarCampoValor() {
                 var tipo = tipoSelect.value;
                 if (tipo === '2') {
                     campoValor.style.display = 'none';
+                    campoVencimento.style.display = 'none';
                     inputValor.value = '0';
+                    inputVencimento.value = '1';
                 } else {
                     campoValor.style.display = '';
+                    campoVencimento.style.display = '';
                     labelValor.textContent = tipo === '1' ? 'Valor Anual (R$)' : 'Valor Mensal (R$)';
                 }
             }
