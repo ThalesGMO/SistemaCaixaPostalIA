@@ -121,6 +121,41 @@ public class CobrancasController : ControladorBase
         return RedirectToAction(nameof(Index));
     }
 
+    public async Task<IActionResult> Excluir(int id)
+    {
+        var cobranca = await Contexto.Cobrancas
+            .Include(c => c.CaixaPostal)
+                .ThenInclude(cx => cx!.Cliente)
+            .Include(c => c.CobrancaStatus)
+            .Include(c => c.HistoricoPagamentos)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(c => c.Id == id);
+
+        if (cobranca is null)
+            return NotFound();
+
+        return View(cobranca);
+    }
+
+    [HttpPost, ActionName("Excluir")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ExcluirConfirmado(int id)
+    {
+        var cobranca = await Contexto.Cobrancas
+            .Include(c => c.HistoricoPagamentos)
+            .FirstOrDefaultAsync(c => c.Id == id);
+
+        if (cobranca is null)
+            return NotFound();
+
+        Contexto.HistoricoPagamentos.RemoveRange(cobranca.HistoricoPagamentos);
+        Contexto.Cobrancas.Remove(cobranca);
+        await Contexto.SaveChangesAsync();
+
+        TempData["Sucesso"] = "Cobrança excluída com sucesso!";
+        return RedirectToAction(nameof(Index));
+    }
+
     private async Task AtualizarCobrancasAtrasadas()
     {
         var hoje = DateTime.Today;

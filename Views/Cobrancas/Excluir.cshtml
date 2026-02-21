@@ -1,0 +1,56 @@
+@model Cobranca
+@{
+    ViewData["Title"] = "Excluir Cobrança";
+    var classeBadge = Model.CobrancaStatus?.Nome switch
+    {
+        "Pago" => "bg-success",
+        "Pendente" => "bg-warning text-dark",
+        "Atrasado" => "bg-danger",
+        _ => "bg-secondary"
+    };
+}
+
+<h4 class="text-white mb-3"><i class="bi bi-trash"></i> Excluir Cobrança</h4>
+
+<div class="alert alert-danger" role="alert">
+    <i class="bi bi-exclamation-triangle-fill"></i>
+    <strong>Atenção!</strong> Esta ação é irreversível. A cobrança e todo o seu histórico de pagamentos serão excluídos permanentemente.
+</div>
+
+<div class="card bg-dark border-secondary mb-3" style="max-width: 700px;">
+    <div class="card-header border-secondary">
+        <span class="text-white">Dados da cobrança a ser excluída</span>
+    </div>
+    <div class="card-body text-white">
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Caixa Postal</dt>
+            <dd class="col-sm-8">@Model.CaixaPostal?.Codigo</dd>
+            <dt class="col-sm-4">Cliente</dt>
+            <dd class="col-sm-8">@Model.CaixaPostal?.Cliente?.Nome</dd>
+            <dt class="col-sm-4">Valor</dt>
+            <dd class="col-sm-8">@Model.Valor.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</dd>
+            <dt class="col-sm-4">Vencimento</dt>
+            <dd class="col-sm-8">@Model.DataVencimento.ToString("dd/MM/yyyy")</dd>
+            <dt class="col-sm-4">Status</dt>
+            <dd class="col-sm-8"><span class="badge @classeBadge">@Model.CobrancaStatus?.Nome</span></dd>
+            @if (Model.HistoricoPagamentos.Any())
+            {
+                <dt class="col-sm-4">Pagamentos</dt>
+                <dd class="col-sm-8 text-warning">
+                    <i class="bi bi-exclamation-circle"></i> @Model.HistoricoPagamentos.Count registro(s) de pagamento também serão excluídos
+                </dd>
+            }
+        </dl>
+    </div>
+</div>
+
+<form asp-action="Excluir" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="@Model.Id" />
+    <button type="submit" class="btn btn-danger me-2">
+        <i class="bi bi-trash"></i> Confirmar Exclusão
+    </button>
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="bi bi-x-circle"></i> Cancelar
+    </a>
+</form>
